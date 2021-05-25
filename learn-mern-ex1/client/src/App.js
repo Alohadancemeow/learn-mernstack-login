@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react'
 import './App.css';
 import AppNavbar from './components/Navbar'
 import ShoppingList from './components/ShoppingList'
@@ -7,9 +8,18 @@ import { Container } from 'reactstrap'
 import { Provider } from 'react-redux'
 import store from './redux/store'
 
+import { loadUser } from './redux/actions/authAction'
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
+
+  // # Load user
+  useEffect(() => {
+    store.dispatch(loadUser())
+  }, [])
+
+  
   return (
     <Provider store={store}>
       <div className="App">

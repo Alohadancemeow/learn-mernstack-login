@@ -10,6 +10,8 @@ import {
     Container
 } from 'reactstrap'
 
+import RegisterModal from './auth/RegisterModal'
+
 const AppNavbar = (props) => {
 
     // # State
@@ -25,9 +27,10 @@ const AppNavbar = (props) => {
                     <NavbarBrand href="/">ShoppingList</NavbarBrand>
                     <NavbarToggler onClick={toggle} />
                     <Collapse isOpen={open} navbar>
-                        <Nav className="ml-auto" navbar>
+                        <Nav className="ml-auto" navbar >
                             <NavItem>
-                                <NavLink href="https://github.com">Github</NavLink>
+                                {/* <NavLink href="https://github.com">Github</NavLink> */}
+                                <RegisterModal />
                             </NavItem>
                         </Nav>
                     </Collapse>
