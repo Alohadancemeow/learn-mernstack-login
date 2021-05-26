@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { register } from '../../redux/actions/authAction'
+import { login } from '../../redux/actions/authAction'
 import { clearErrors } from '../../redux/actions/errorAction'
 import {
     Button,
@@ -15,8 +15,7 @@ import {
     Alert
 } from 'reactstrap'
 
-const RegisterModal = () => {
-
+const LoginModal = () => {
     const dispatch = useDispatch()
 
     // # call Reducer
@@ -29,7 +28,6 @@ const RegisterModal = () => {
     // # State
     const [user, setUser] = useState({
         modal: false,
-        name: '',
         email: '',
         password: '',
         msg: null
@@ -63,23 +61,18 @@ const RegisterModal = () => {
     }
 
 
-    // todo: register
+    // todo: login
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        const { name, email, password } = user
-
-        // Create user object
-        const newUser = {
-            name,
+        const { email, password } = user
+        const loginUser = {
             email,
             password
         }
-        console.log(newUser);
 
-        // Attempt ot register
-        dispatch(register(newUser))
-
+        // Attempt to login
+        dispatch(login(loginUser))
     }
 
     console.log(user);
@@ -88,7 +81,7 @@ const RegisterModal = () => {
     useEffect(() => {
 
         // Check for register error
-        if (error.id === "REGISTER_FAIL") {
+        if (error.id === "LOGIN_FAIL") {
             return setUser({
                 ...user,
                 msg: error.msg.message
@@ -115,7 +108,7 @@ const RegisterModal = () => {
     return (
         <div>
             <NavLink onClick={toggle} href="#">
-                Register
+                Login
            </NavLink>
 
             <Modal
@@ -123,7 +116,7 @@ const RegisterModal = () => {
                 toggle={toggle}
             >
                 <ModalHeader toggle={toggle}>
-                    Register
+                    Login
                 </ModalHeader>
 
                 <ModalBody>
@@ -137,15 +130,6 @@ const RegisterModal = () => {
 
                     <Form onSubmit={handleSubmit}>
                         <FormGroup>
-                            <Label for="name">Name</Label>
-                            <Input
-                                className="mb-3"
-                                type="text"
-                                name="name"
-                                id="name"
-                                placeholder="Name"
-                                onChange={handleOnChange}
-                            />
                             <Label for="email">Email</Label>
                             <Input
                                 className="mb-3"
@@ -169,7 +153,7 @@ const RegisterModal = () => {
                                 style={{ marginTop: '2rem' }}
                                 block
 
-                            >Register
+                            >Login
                             </Button>
                         </FormGroup>
                     </Form>
@@ -180,4 +164,4 @@ const RegisterModal = () => {
     )
 }
 
-export default RegisterModal
+export default LoginModal

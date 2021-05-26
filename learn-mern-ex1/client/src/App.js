@@ -4,11 +4,10 @@ import AppNavbar from './components/Navbar'
 import ShoppingList from './components/ShoppingList'
 import ItemModal from './components/ItemModal'
 import { Container } from 'reactstrap'
+import { loadUser } from './redux/actions/authAction'
 
 import { Provider } from 'react-redux'
 import store from './redux/store'
-
-import { loadUser } from './redux/actions/authAction'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 

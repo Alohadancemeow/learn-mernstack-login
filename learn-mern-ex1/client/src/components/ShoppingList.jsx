@@ -11,6 +11,7 @@ const ShoppingList = () => {
 
     const dispatch = useDispatch()
     const { items } = useSelector(state => state.item)
+    const { isAuthenticated } = useSelector(state => state.auth)
 
     // # Load all items.
     useEffect(() => {
@@ -54,13 +55,22 @@ const ShoppingList = () => {
                                 classNames="fade"
                             >
                                 <ListGroupItem>
-                                    <Button
-                                        className="remove-btn"
-                                        color="danger"
-                                        size="sm"
-                                        onClick={() => handleDeleteItem(_id)}
-                                    >&times;</Button>
+
+                                    { //todo: login or not ?
+                                        isAuthenticated
+                                            ? (
+                                                <Button
+                                                    className="remove-btn"
+                                                    color="danger"
+                                                    size="sm"
+                                                    onClick={() => handleDeleteItem(_id)}
+                                                >&times;
+                                                </Button>
+                                            )
+                                            : null
+                                    }
                                     {name}
+
                                 </ListGroupItem>
                             </CSSTransition>
                         ))

@@ -27,8 +27,8 @@ export const loadUser = () => (dispatch, getState) => {
         .catch((err) => {
             dispatch(returnErrors(
                 err.response.data,
-                err.response.status,
-                'REGISTER_FAIL'
+                err.response.status
+                
             ))
 
             dispatch({
@@ -59,13 +59,55 @@ export const register = ({ name, email, password }) => (dispatch) => {
         .catch((err) => {
             dispatch(returnErrors(
                 err.response.data,
-                err.response.status
+                err.response.status,
+                'REGISTER_FAIL'
             ))
 
             dispatch({
                 type: REGISTER_FAIL
             })
         })
+}
+
+// # Login user
+export const login = ({ email, password }) => (dispatch) => {
+
+    // Headers
+    const config = {
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }
+
+    // Request body
+    const body = JSON.stringify({ email, password })
+
+    // Call api
+    axios.post('/api/auth', body, config)
+        .then((res) => dispatch({
+            type: LOGIN_SUCCESS,
+            payload: res.data  //token, user{}
+        }))
+        .catch((err) => {
+            dispatch(returnErrors(
+                err.response.data, // msg
+                err.response.status, // status
+                'LOGIN_FAIL' // id
+            ))
+
+            dispatch({
+                type: LOGIN_FAIL
+            })
+        })
+}
+
+
+// # Logout user
+export const logout = () => (dispatch) => {
+
+    // no need to call api
+    dispatch({ type: LOGOUT_SUCCESS })
+
 }
 
 

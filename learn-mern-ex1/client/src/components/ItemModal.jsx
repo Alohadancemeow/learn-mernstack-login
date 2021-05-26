@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 // import { v4 as uuid } from 'uuid';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addItem } from '../redux/actions/itemAction'
 import {
     Button,
@@ -16,6 +16,7 @@ import {
 const ItemModal = () => {
 
     const dispatch = useDispatch()
+    const { isAuthenticated } = useSelector(state => state.auth)
 
     // # State
     const [item, setItem] = useState({
@@ -32,19 +33,19 @@ const ItemModal = () => {
 
     console.log(`OUT-> ${item.modal}`);
 
-    
+
     const handleOnChange = (e) => {
 
         console.log(e.target.value);
         console.log(item.modal);
-        
+
         setItem({
             modal: item.modal,
             [e.target.name]: e.target.value
         })
-     
+
     }
- 
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -68,12 +69,22 @@ const ItemModal = () => {
 
     return (
         <div>
-            <Button
-                color="dark"
-                style={{ marginBottom: '2rem' }}
-                onClick={toggle}
-            >Add Item
-            </Button>
+            { //todo: login or not ?
+                isAuthenticated
+                    ? (
+                        <Button
+                            color="dark"
+                            style={{ marginBottom: '2rem' }}
+                            onClick={toggle}
+                        >Add Item
+                        </Button>
+                    )
+                    : (
+                        <h4 className="mb-3 ml-4">
+                            Please login to manage items
+                        </h4>
+                    )
+            }
 
             <Modal
                 isOpen={item.modal}

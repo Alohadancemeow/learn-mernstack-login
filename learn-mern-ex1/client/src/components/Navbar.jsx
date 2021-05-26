@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux'
 import React, { useState } from 'react'
 import {
     Collapse,
@@ -11,14 +12,54 @@ import {
 } from 'reactstrap'
 
 import RegisterModal from './auth/RegisterModal'
+import Logout from './auth/Logout'
+import LoginModal from './auth/LoginModal'
 
-const AppNavbar = (props) => {
+
+const AppNavbar = () => {
+
+    // # Call reducer
+    const { isAuthenticated, user } = useSelector(state => state.auth)
 
     // # State
     const [open, setOpen] = useState(false)
 
     // # Toggle menu
     const toggle = () => setOpen(!open)
+
+
+    // todo: Login or not ?
+    // # Logged in
+    const loggedIn = (
+        <>
+            <NavItem>
+                <span className="navbar-text mr-3">
+                    <strong>
+                        {
+                            user
+                                ? `Wellcome ${user.name}`
+                                : null
+                        }
+                    </strong>
+                </span>
+            </NavItem>
+            <NavItem>
+                <Logout />
+            </NavItem>
+        </>
+    )
+
+    // # Not loging in
+    const guest = (
+        <>
+            <NavItem>
+                <RegisterModal />
+            </NavItem>
+            <NavItem>
+                <LoginModal />
+            </NavItem>
+        </>
+    )
 
     return (
         <div>
@@ -27,11 +68,12 @@ const AppNavbar = (props) => {
                     <NavbarBrand href="/">ShoppingList</NavbarBrand>
                     <NavbarToggler onClick={toggle} />
                     <Collapse isOpen={open} navbar>
-                        <Nav className="ml-auto" navbar >
-                            <NavItem>
-                                {/* <NavLink href="https://github.com">Github</NavLink> */}
-                                <RegisterModal />
-                            </NavItem>
+                        <Nav className="ml-auto" navbar>
+                            {
+                                isAuthenticated
+                                    ? loggedIn
+                                    : guest
+                            }
                         </Nav>
                     </Collapse>
                 </Container>
